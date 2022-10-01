@@ -1,6 +1,8 @@
+using Infrastrucure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,17 +15,21 @@ namespace Front
 {
     public class Startup
     {
+        private readonly IConfiguration configration;
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.configration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+            services.AddControllersWithViews();
+            services.AddDbContext<DataContext>(options =>
+            {
+                options.UseSqlServer(configration.GetConnectionString("PortfolioDB"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +55,12 @@ namespace Front
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                // default Route for Start Running
+                endpoints.MapControllerRoute(
+                    "defaultRoute",
+                    "{controller=Home}/{action=Index}/{id?}"
+
+                    );
             });
         }
     }
