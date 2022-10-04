@@ -1,4 +1,7 @@
+using Core.Entities;
+using Core.Interfaces;
 using Infrastrucure;
+using Infrastrucure.UnitofWork;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,6 +33,7 @@ namespace Front
             {
                 options.UseSqlServer(configration.GetConnectionString("PortfolioDB"));
             });
+            services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
