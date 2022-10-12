@@ -8,6 +8,8 @@ namespace Infrastrucure
 {
     public class DataContext : DbContext
     {
+
+        // map for connection in appsetting.json (Connection String)
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
