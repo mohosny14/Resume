@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace Infrastrucure
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext
     {
 
         // map for connection in appsetting.json (Connection String)

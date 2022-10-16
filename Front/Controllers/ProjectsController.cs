@@ -11,6 +11,8 @@ using Front.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Front.Controllers
 {
@@ -26,12 +28,14 @@ namespace Front.Controllers
         }
 
         // GET: Projects
+      //  [Authorize]
         public IActionResult Index()
         {
             return View(_project.Entity.GetAll());
         }
 
         // GET: Projects/Details/5
+       
         public IActionResult Details(Guid? id)
         {
             if (id == null)
@@ -49,6 +53,7 @@ namespace Front.Controllers
         }
 
         // GET: Projects/Create
+        [Authorize(Policy = "RequireAdmin")]
         public IActionResult Create()
         {
             return View();
@@ -57,6 +62,7 @@ namespace Front.Controllers
         // POST: Projects/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "RequireAdmin")]
         public IActionResult Create(ProjectsViewModel model)
         {
             if (ModelState.IsValid)
@@ -82,6 +88,7 @@ namespace Front.Controllers
         }
 
         // GET: Projects/Edit/5
+        [Authorize(Policy = "RequireAdmin")]
         public IActionResult Edit(Guid? id)
         {
             if (id == null)
@@ -109,6 +116,7 @@ namespace Front.Controllers
         // POST: Projects/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "RequireAdmin")]
         public IActionResult Edit(Guid id, ProjectsViewModel model)
         {
             if (id != model.Id)
@@ -138,7 +146,6 @@ namespace Front.Controllers
                         _project.Entity.Update(project);
                         _project.Save();
                     }
-                   // code here else if missing entered data such as Image or Name or Description
                   
                 }
                 catch (DbUpdateConcurrencyException)
@@ -158,6 +165,7 @@ namespace Front.Controllers
         }
 
         // GET: Projects/Delete/5
+        [Authorize(Policy = "RequireAdmin")]
         public IActionResult Delete(Guid? id)
         {
             if (id == null)
@@ -177,6 +185,7 @@ namespace Front.Controllers
         // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "RequireAdmin")]
         public IActionResult DeleteConfirmed(Guid id)
         {
             _project.Entity.Delete(id);
@@ -184,9 +193,13 @@ namespace Front.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Policy = "RequireAdmin")]
         private bool ProjectsExists(Guid id)
         {
             return _project.Entity.GetAll().Any(e => e.Id == id);
         }
+
+       
+
     }
 }

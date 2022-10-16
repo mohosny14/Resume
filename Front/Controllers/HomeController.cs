@@ -32,5 +32,13 @@ namespace Front.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult GetPdf()
+        {
+            string filePath = "~/pdf/Juinor.NETDeveloper.pdf";
+            Response.Headers.Add("Content-Disposition", "inline; filename=Juinor.NETDeveloper.pdf");
+            return File(filePath, "application/pdf");
+        }
     }
 }
