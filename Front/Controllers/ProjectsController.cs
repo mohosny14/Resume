@@ -27,14 +27,12 @@ namespace Front.Controllers
             _hosting = hosting;
         }
 
-        // GET: Projects
-      //  [Authorize]
+      
         public IActionResult Index()
         {
             return View(_project.Entity.GetAll());
         }
 
-        // GET: Projects/Details/5
        
         public IActionResult Details(Guid? id)
         {
@@ -52,21 +50,18 @@ namespace Front.Controllers
             return View(projects);
         }
 
-        // GET: Projects/Create
         [Authorize(Policy = "RequireAdmin")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Projects/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "RequireAdmin")]
         public IActionResult Create(ProjectsViewModel model)
         {
-            if (ModelState.IsValid)
-            {
+            
 
                 if (model.File != null)
                 {
@@ -83,11 +78,10 @@ namespace Front.Controllers
                 _project.Entity.Insert(project);
                 _project.Save();
                 return RedirectToAction(nameof(Index));
-            }
-            return View(model);
-        }
 
-        // GET: Projects/Edit/5
+        }
+    
+
         [Authorize(Policy = "RequireAdmin")]
         public IActionResult Edit(Guid? id)
         {
@@ -113,7 +107,6 @@ namespace Front.Controllers
             return View(viewmodel);
         }
 
-        // POST: Projects/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "RequireAdmin")]
@@ -124,8 +117,8 @@ namespace Front.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 try
                 {
                     if (model.File != null)
@@ -160,11 +153,10 @@ namespace Front.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
-            return View(model);
+            //}
+            //return View(model);
         }
 
-        // GET: Projects/Delete/5
         [Authorize(Policy = "RequireAdmin")]
         public IActionResult Delete(Guid? id)
         {
@@ -182,7 +174,6 @@ namespace Front.Controllers
             return View(projects);
         }
 
-        // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "RequireAdmin")]

@@ -51,7 +51,7 @@ namespace Front.Controllers
                 {
 
 
-                    return RedirectToAction("Create", "Projects");
+                    return RedirectToAction("Index", "Projects");
                 }
             }
 

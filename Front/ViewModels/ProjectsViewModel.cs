@@ -16,6 +16,7 @@ namespace Front.ViewModels
         public string ProjectName { get; set; }
         [Required]
         public string Description { get; set; }
+
         [Required(ErrorMessage =("Select an Image"))]
         public string ImageUrl { get; set; }
 
